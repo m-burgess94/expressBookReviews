@@ -1,3 +1,4 @@
+general
 const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
@@ -12,14 +13,19 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+   res.send(JSON.stringify(books,null,4));
+  return res.status(300).json({message: "Book List Available."});
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const isbn = req.params.isbn;
+    res.send(books[isbn]);
+    // Filter the user array to find books whose isbn matches the extracted isbn parameter
+    let filtered_users = users.filter((user) => user.isbn === isbn);
+    // Send the filtered_users array as the response to the client
+    res.send(filtered_users);
+  return res.status(300).json({message: "Book details based on ISBN retrieved."});
  });
   
 // Get book details based on author
